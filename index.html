@@ -12,23 +12,23 @@
 <style>
 /* ─── TOKENS ──────────────────────────────────────────────────────────── */
 :root {
-  --gold:        #c9a84c;
-  --gold-soft:   #e8d5a3;
-  --gold-deep:   #8a6420;
-  --gold-glow:   rgba(201,168,76,0.18);
+  --gold:        #4f86f7;
+  --gold-soft:   #bfd3ff;
+  --gold-deep:   #315fc9;
+  --gold-glow:   rgba(79,134,247,0.16);
   --blue:        #3b6cf6;
   --blue-soft:   rgba(59,108,246,0.12);
   --green:       #22c55e;
   --red:         #ef4444;
-  --orange:      #f97316;
-  --purple:      #a855f7;
+  --orange:      #f59e0b;
+  --purple:      #8b5cf6;
 
-  --bg:          #f4f1eb;
+  --bg:          #f5f7fb;
   --surface:     #ffffff;
-  --surface2:    #f9f7f3;
-  --border:      #e8e2d6;
+  --surface2:    #eef3ff;
+  --border:      #d9e3f5;
   --text:        #1a1510;
-  --muted:       #7a7065;
+  --muted:       #64748b;
   --code-bg:     #f0ece4;
 
   --radius-s:    6px;
@@ -86,7 +86,7 @@ input,select{font-family:inherit}
   width:42px;height:42px;border-radius:var(--radius-m);
   background:linear-gradient(135deg,var(--gold-deep),var(--gold));
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 2px 12px rgba(201,168,76,.4);
+  box-shadow:0 2px 12px rgba(79,134,247,.28);
   flex-shrink:0;
 }
 .brand-icon svg{width:22px;height:22px;fill:white}
@@ -112,9 +112,9 @@ input,select{font-family:inherit}
 .btn-ghost:hover{background:var(--border)}
 .btn-gold{
   background:linear-gradient(135deg,var(--gold-deep),var(--gold));
-  color:#fff;box-shadow:0 2px 8px rgba(201,168,76,.35);
+  color:#fff;box-shadow:0 2px 8px rgba(79,134,247,.25);
 }
-.btn-gold:hover{filter:brightness(1.07);box-shadow:0 4px 14px rgba(201,168,76,.45)}
+.btn-gold:hover{filter:brightness(1.07);box-shadow:0 4px 14px rgba(79,134,247,.35)}
 .btn-blue{background:var(--blue);color:#fff}
 .btn-blue:hover{filter:brightness(1.08)}
 .btn-danger{background:var(--red);color:#fff}
@@ -503,7 +503,7 @@ canvas{max-height:280px}
           <label class="filter-label">ရက်စွဲ ကာလသတ်မှတ်ချက်</label>
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
             <div class="date-range-wrapper" id="startDateWrapper">
-              <div class="date-range-trigger" id="startDateTrigger" onclick="toggleCalendar('start')">
+              <div class="date-range-trigger" id="startDateTrigger" onclick="toggleCalendar(event,'start')">
                 <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 <span class="date-range-trigger-text placeholder" id="startDateDisplay">From date…</span>
               </div>
@@ -511,7 +511,7 @@ canvas{max-height:280px}
             </div>
             <span style="color:var(--muted);font-size:13px;font-weight:600">→</span>
             <div class="date-range-wrapper" id="endDateWrapper">
-              <div class="date-range-trigger" id="endDateTrigger" onclick="toggleCalendar('end')">
+              <div class="date-range-trigger" id="endDateTrigger" onclick="toggleCalendar(event,'end')">
                 <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 <span class="date-range-trigger-text placeholder" id="endDateDisplay">To date…</span>
               </div>
@@ -920,11 +920,14 @@ function openCalendar(side) {
     calState[side].month = ref.getMonth();
   }
   renderCalendar(side);
-  document.getElementById(side==='start'?'startCal':'endCal').classList.add('open');
+  const calEl=document.getElementById(side==='start'?'startCal':'endCal');
+  calEl.classList.add('open');
+  calEl.onclick=(e)=>e.stopPropagation();
   document.getElementById(side==='start'?'startDateTrigger':'endDateTrigger').classList.add('open');
 }
 
-function toggleCalendar(side) {
+function toggleCalendar(event, side) {
+  if(event){ event.stopPropagation(); }
   const cal = document.getElementById(side==='start'?'startCal':'endCal');
   if (cal.classList.contains('open') && activeCalendar===side) {
     closeAllCalendars();
@@ -1468,7 +1471,7 @@ document.getElementById('salesSearchInput').addEventListener('keyup',searchSales
 /* ═══════════════════════════════════════════════════════════════════════
    CHARTS (original logic, improved styling)
 ═══════════════════════════════════════════════════════════════════════ */
-const PALETTE=['#c9a84c','#3b6cf6','#22c55e','#f97316','#a855f7','#ef4444','#06b6d4','#8b5cf6'];
+const PALETTE=['#4f86f7','#22c55e','#8b5cf6','#0ea5e9','#f59e0b','#ef4444','#14b8a6','#6366f1'];
 
 function chartDefaults(){
   const c=getChartColors();
@@ -1507,7 +1510,7 @@ function toggleTrendChartData(){
     handleChartInit('container-trend','salesTrendChart','line',keys,vals,{label:'အသားတင်အမြတ် (ရွေး)',data:vals,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.08)',fill:true,tension:.4,pointRadius:3,pointHoverRadius:5,borderWidth:2});
   } else {
     const vals=keys.map(k=>cachedDateTrendRevenue[k]||0);
-    handleChartInit('container-trend','salesTrendChart','line',keys,vals,{label:'ရောင်းရငွေ (ရွေး)',data:vals,borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.08)',fill:true,tension:.4,pointRadius:3,pointHoverRadius:5,borderWidth:2});
+    handleChartInit('container-trend','salesTrendChart','line',keys,vals,{label:'ရောင်းရငွေ (ရွေး)',data:vals,borderColor:'#4f86f7',backgroundColor:'rgba(79,134,247,.10)',fill:true,tension:.4,pointRadius:3,pointHoverRadius:5,borderWidth:2});
   }
 }
 
@@ -1532,8 +1535,8 @@ function renderCharts(dateTrend,catGroup,staffGroup,crmList){
   const trendKeys=Object.keys(dateTrend).sort();
   const trendVals=trendKeys.map(k=>dateTrend[k]);
   handleChartInit('container-trend','salesTrendChart','line',trendKeys,trendVals,{
-    label:'ရောင်းရငွေ (ရွေး)',data:trendVals,borderColor:'#c9a84c',
-    backgroundColor:'rgba(201,168,76,.08)',fill:true,tension:.4,pointRadius:3,pointHoverRadius:5,borderWidth:2
+    label:'ရောင်းရငွေ (ရွေး)',data:trendVals,borderColor:'#4f86f7',
+    backgroundColor:'rgba(79,134,247,.10)',fill:true,tension:.4,pointRadius:3,pointHoverRadius:5,borderWidth:2
   });
 
   const activeCats=Object.keys(catGroup).sort((a,b)=>catGroup[b]-catGroup[a]);
@@ -1553,7 +1556,7 @@ function renderCharts(dateTrend,catGroup,staffGroup,crmList){
     const opts=chartDefaults();
     charts['topCustomerWeightChart']=new Chart(document.getElementById('topCustomerWeightChart').getContext('2d'),{
       type:'bar',
-      data:{labels:sorted.map(c=>`${c.customerId}`),datasets:[{label:'ဝယ်ယူမှု (ရွေး)',data:sorted.map(c=>c.totalWeight),backgroundColor:'rgba(201,168,76,.85)',borderRadius:6,borderSkipped:false}]},
+      data:{labels:sorted.map(c=>`${c.customerId} - ${c.customerName||'Unknown'}`),datasets:[{label:'ဝယ်ယူမှု (ရွေး)',data:sorted.map(c=>c.totalWeight),backgroundColor:'rgba(79,134,247,.85)',borderRadius:6,borderSkipped:false}]},
       options:opts
     });
   }
@@ -1568,7 +1571,7 @@ function renderCharts(dateTrend,catGroup,staffGroup,crmList){
     opts.scales.y.ticks.stepSize=1;
     charts['topCustomerFreqChart']=new Chart(document.getElementById('topCustomerFreqChart').getContext('2d'),{
       type:'bar',
-      data:{labels:sorted.map(c=>`${c.customerId}`),datasets:[{label:'ဝယ်ယူကြိမ်ရေ',data:sorted.map(c=>c.count),backgroundColor:'rgba(59,108,246,.85)',borderRadius:6,borderSkipped:false}]},
+      data:{labels:sorted.map(c=>`${c.customerId} - ${c.customerName||'Unknown'}`),datasets:[{label:'ဝယ်ယူကြိမ်ရေ',data:sorted.map(c=>c.count),backgroundColor:'rgba(34,197,94,.82)',borderRadius:6,borderSkipped:false}]},
       options:opts
     });
   }
@@ -1585,8 +1588,8 @@ function renderCharts(dateTrend,catGroup,staffGroup,crmList){
     charts['employeeChart']=new Chart(document.getElementById('employeeChart').getContext('2d'),{
       type:'bar',
       data:{labels:staffKeys,datasets:[
-        {label:'ရောင်းရငွေ (ရွေး)',data:staffKeys.map(k=>staffGroup[k].sell),backgroundColor:'rgba(201,168,76,.85)',yAxisID:'y',borderRadius:4},
-        {label:'အရေအတွက် (ထည်)',data:staffKeys.map(k=>staffGroup[k].qty),backgroundColor:'rgba(71,85,105,.75)',yAxisID:'y1',borderRadius:4}
+        {label:'ရောင်းရငွေ (ရွေး)',data:staffKeys.map(k=>staffGroup[k].sell),backgroundColor:'rgba(79,134,247,.85)',yAxisID:'y',borderRadius:4},
+        {label:'အရေအတွက် (ထည်)',data:staffKeys.map(k=>staffGroup[k].qty),backgroundColor:'rgba(139,92,246,.72)',yAxisID:'y1',borderRadius:4}
       ]},
       options:opts
     });
